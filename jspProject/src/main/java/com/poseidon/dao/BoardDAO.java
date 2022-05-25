@@ -13,18 +13,17 @@ import com.poseidon.dto.CommentDTO;
 import db.DBConnection;
 
 public class BoardDAO {
-	public List<BoardDTO> boardList() {
+	public List<BoardDTO> boardList(int pageNo) {
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM may_boardview";// view만들거라서 잠시 후 수정합니다.
-		// 2022-05-13
-		// 서버프로그램 구현
-		// 서버프로그램 구현하기
+		String sql = "SELECT * FROM may_boardview LIMIT ?, 10";// view만들거라서 잠시 후 수정합니다.
+
 		try {
 			con = DBConnection.dbConn();
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, pageNo);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				BoardDTO dto = new BoardDTO();
